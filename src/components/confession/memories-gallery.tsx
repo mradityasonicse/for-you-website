@@ -1,14 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
-  Eye,
   Heart,
-  Maximize2,
   Sparkles,
   X,
   ZoomIn,
@@ -20,8 +18,9 @@ export interface MemoryItem {
   src: string;
   title: string;
   caption: string;
-  tag: string;
-  date: string;
+  subtitle: string;
+  badge: string;
+  tapeColor: string;
   rotate: number;
 }
 
@@ -30,73 +29,81 @@ export const MEMORIES: MemoryItem[] = [
     id: "memory-2",
     src: "/memories/memory-2.jpg",
     title: "That Radiant Smile ✦",
-    caption: "The one that can light up the entire room in a single second.",
-    tag: "The Spark",
-    date: "A smile I'll never forget",
-    rotate: -2.2,
+    caption: "The one that can light up any room in a single fraction of a second.",
+    subtitle: "A smile I fell for",
+    badge: "Exhibit A · The Spark",
+    tapeColor: "from-rose-200/50 via-rose-100/70 to-rose-300/50",
+    rotate: -2,
   },
   {
     id: "memory-1",
     src: "/memories/memory-1.jpg",
     title: "Effortlessly Unforgettable ✦",
     caption: "In a world full of noise, my eyes will always search for you.",
-    tag: "The Warmth",
-    date: "Living in my heart",
-    rotate: 2.2,
+    subtitle: "Living in my heart",
+    badge: "Exhibit B · The Warmth",
+    tapeColor: "from-amber-200/50 via-amber-100/70 to-rose-200/50",
+    rotate: 2,
   },
 ];
 
 export default function MemoriesGallery() {
-  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeMobileIdx, setActiveMobileIdx] = useState(0);
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  const selectedPhoto = lightboxIndex !== null ? MEMORIES[lightboxIndex] : null;
+  const selectedPhoto = lightboxIdx !== null ? MEMORIES[lightboxIdx] : null;
 
-  const nextLightbox = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    setLightboxIndex((prev) => (prev !== null ? (prev + 1) % MEMORIES.length : 0));
-  };
-
-  const prevLightbox = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    setLightboxIndex((prev) => (prev !== null ? (prev - 1 + MEMORIES.length) % MEMORIES.length : 0));
-  };
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIdx(null);
+      if (e.key === "ArrowRight" && lightboxIdx !== null) {
+        setLightboxIdx((prev) => (prev !== null ? (prev + 1) % MEMORIES.length : 0));
+      }
+      if (e.key === "ArrowLeft" && lightboxIdx !== null) {
+        setLightboxIdx((prev) => (prev !== null ? (prev - 1 + MEMORIES.length) % MEMORIES.length : 0));
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [lightboxIdx]);
 
   return (
     <section
       id="memories"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-28 text-center"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-32 text-center"
     >
-      {/* Cinematic Ambient Glow Behind Photos */}
+      {/* Cinematic Ambient Halos */}
       <div
-        className="pointer-events-none absolute left-1/4 top-1/2 h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-500/15 blur-[130px]"
+        className="pointer-events-none absolute left-1/4 top-1/2 h-[550px] w-[550px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-500/15 blur-[140px]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute right-1/4 top-1/2 h-[450px] w-[450px] translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-500/12 blur-[130px]"
+        className="pointer-events-none absolute right-1/4 top-1/2 h-[550px] w-[550px] translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-500/12 blur-[140px]"
         aria-hidden="true"
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
-        {/* Cinematic Section Header */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
+        {/* Editorial Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 0.8 }}
-          className="text-[11px] uppercase tracking-[0.45em] text-rose-300/70"
+          className="inline-flex items-center gap-2 rounded-full border border-rose-300/20 bg-rose-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.45em] text-rose-200/80 backdrop-blur-md"
         >
-          moments · frozen in time
-        </motion.p>
+          <Sparkles className="h-3 w-3 text-amber-300 animate-twinkle" />
+          <span>Chapter Three · The Visual Chronicle</span>
+        </motion.div>
 
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 0.9, delay: 0.15 }}
-          className="mt-6 max-w-2xl font-serif text-4xl font-light leading-tight text-rose-50 sm:text-5xl lg:text-6xl"
+          className="mt-6 max-w-3xl font-serif text-4xl font-light leading-tight text-rose-50 sm:text-5xl lg:text-6xl"
         >
-          Every glance, a <em className="text-shimmer font-medium">favorite memory.</em>
+          Moments frozen in time.{" "}
+          <em className="text-shimmer font-medium italic">Treasured forever.</em>
         </motion.h2>
 
         <motion.p
@@ -104,10 +111,10 @@ export default function MemoriesGallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 0.9, delay: 0.3 }}
-          className="mt-4 max-w-xl text-sm leading-relaxed text-rose-100/60 sm:text-base"
+          className="mt-4 max-w-xl text-base leading-relaxed text-rose-100/65"
         >
-          They say a picture is worth a thousand words, but every time I see these, I only hear
-          one thing — how lucky I am to know you.
+          Out of all the memories in the universe, these are the ones that make my heart beat
+          a little faster every single time.
         </motion.p>
 
         {/* Mobile View Toggle Buttons */}
@@ -116,10 +123,10 @@ export default function MemoriesGallery() {
             <button
               key={m.id}
               type="button"
-              onClick={() => setActivePhotoIndex(idx)}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
-                activePhotoIndex === idx
-                  ? "bg-gradient-to-r from-rose-500 to-amber-400 text-[#2a0d16] shadow-[0_0_15px_rgba(251,113,133,0.5)]"
+              onClick={() => setActiveMobileIdx(idx)}
+              className={`rounded-full px-5 py-2 text-xs font-medium transition-all ${
+                activeMobileIdx === idx
+                  ? "bg-gradient-to-r from-rose-500 to-amber-400 font-semibold text-[#2a0d16] shadow-[0_0_20px_rgba(251,113,133,0.5)]"
                   : "glass text-rose-200/70 hover:text-rose-100"
               }`}
             >
@@ -128,53 +135,50 @@ export default function MemoriesGallery() {
           ))}
         </div>
 
-        {/* Cinematic Dual Polaroid Cards Showcase */}
-        <div className="mt-12 w-full">
-          {/* Desktop Grid Layout: Both Photos side by side */}
+        {/* Desktop Dual-Card Showcase */}
+        <div className="mt-14 w-full">
           <div className="hidden grid-cols-1 gap-10 md:grid md:grid-cols-2 lg:gap-14">
             {MEMORIES.map((item, index) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 48, scale: 0.94 }}
+                initial={{ opacity: 0, y: 50, scale: 0.93 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-15%" }}
-                transition={{ duration: 1, delay: 0.2 + index * 0.2, ease: "easeOut" }}
+                transition={{ duration: 1, delay: 0.2 + index * 0.2, ease: [0.22, 1, 0.36, 1] }}
                 className="relative flex flex-col items-center"
               >
-                {/* Metallic Washi Tape on Top */}
+                {/* Washi Tape Ribbon with Realistic Light Sheen */}
                 <div
-                  className={`absolute -top-4 left-1/2 z-20 h-7 w-28 -translate-x-1/2 rounded-sm shadow-md backdrop-blur-md ${
-                    index === 0
-                      ? "-rotate-2 bg-gradient-to-r from-rose-200/40 via-rose-100/60 to-rose-300/40"
-                      : "rotate-2 bg-gradient-to-r from-amber-200/40 via-amber-100/60 to-rose-200/40"
+                  className={`absolute -top-4 left-1/2 z-20 h-7 w-28 -translate-x-1/2 rounded-sm bg-gradient-to-r ${item.tapeColor} shadow-md backdrop-blur-md ${
+                    index === 0 ? "-rotate-2" : "rotate-2"
                   }`}
                   aria-hidden="true"
                 />
 
-                {/* Floating Micro-sparkles */}
+                {/* Floating Heart / Sparkle Decor */}
                 {index === 0 ? (
                   <Heart
                     aria-hidden="true"
-                    className="pointer-events-none absolute -left-5 top-20 h-5 w-5 animate-float-slow fill-rose-400/40 text-rose-400/40"
+                    className="pointer-events-none absolute -left-6 top-16 h-6 w-6 animate-float-slow fill-rose-400/40 text-rose-400/40 drop-shadow-[0_0_15px_rgba(251,113,133,0.5)]"
                   />
                 ) : (
                   <Sparkles
                     aria-hidden="true"
-                    className="pointer-events-none absolute -right-5 bottom-28 h-6 w-6 animate-twinkle text-amber-300/70"
+                    className="pointer-events-none absolute -right-6 bottom-24 h-6 w-6 animate-twinkle text-amber-300/80 drop-shadow-[0_0_15px_rgba(252,211,77,0.5)]"
                   />
                 )}
 
-                {/* Polaroid Frame */}
+                {/* Polaroid Frame with 3D Hover & Directional Borders */}
                 <motion.div
                   style={{ rotate: item.rotate }}
-                  whileHover={{ rotate: 0, scale: 1.025, y: -6 }}
-                  transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                  className="glass-cinematic group relative w-full max-w-sm overflow-hidden rounded-3xl p-5 pb-8 shadow-[0_25px_60px_rgba(0,0,0,0.65),0_0_40px_rgba(251,113,133,0.18)]"
+                  whileHover={{ rotate: 0, scale: 1.03, y: -8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                  className="glass-cinematic group relative w-full max-w-sm overflow-hidden rounded-3xl p-5 pb-8"
                 >
                   {/* Photo Container */}
                   <div
-                    onClick={() => setLightboxIndex(index)}
-                    className="relative aspect-[9/14] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#1c0c15] shadow-inner"
+                    onClick={() => setLightboxIdx(index)}
+                    className="relative aspect-[9/14] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#14060e] shadow-inner"
                   >
                     <Image
                       src={item.src}
@@ -182,23 +186,23 @@ export default function MemoriesGallery() {
                       fill
                       priority={index === 0}
                       sizes="(max-width: 768px) 90vw, 420px"
-                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-106"
                     />
 
-                    {/* Ambient subtle vignette */}
+                    {/* Subtle vignette gradient */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#160a10]/80 via-transparent to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-30"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0e0409]/80 via-transparent to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-30"
                       aria-hidden="true"
                     />
 
-                    {/* Zoom Badge on Hover */}
-                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-100 backdrop-blur-md transition-all duration-300 group-hover:bg-rose-950/80 group-hover:scale-105">
+                    {/* Zoom Pill Badge */}
+                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-100 backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:bg-rose-950/80">
                       <ZoomIn className="h-3 w-3 text-rose-300" />
                       <span>Tap to zoom</span>
                     </div>
 
-                    <span className="absolute left-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-rose-200/80 backdrop-blur-md">
-                      {item.tag}
+                    <span className="absolute left-3 top-3 rounded-full bg-black/55 px-3 py-0.5 text-[10px] uppercase tracking-wider text-rose-200/90 backdrop-blur-md">
+                      {item.badge}
                     </span>
                   </div>
 
@@ -207,11 +211,11 @@ export default function MemoriesGallery() {
                     <h3 className="font-script text-3xl text-rose-200 drop-shadow-[0_2px_12px_rgba(251,113,133,0.4)] sm:text-4xl">
                       {item.title}
                     </h3>
-                    <p className="mt-2 font-serif text-base italic leading-snug text-rose-100/80">
+                    <p className="mt-2 font-serif text-base italic leading-snug text-rose-100/80 sm:text-lg">
                       &ldquo;{item.caption}&rdquo;
                     </p>
-                    <p className="mt-2 text-[11px] uppercase tracking-widest text-rose-300/50">
-                      ✦ {item.date} ✦
+                    <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-rose-300/55">
+                      ✦ {item.subtitle} ✦
                     </p>
                   </div>
                 </motion.div>
@@ -219,31 +223,31 @@ export default function MemoriesGallery() {
             ))}
           </div>
 
-          {/* Mobile Display: Single Card with interactive controls */}
+          {/* Mobile Display: Single Card with Carousel controls */}
           <div className="flex flex-col items-center md:hidden">
             <AnimatePresence mode="wait">
               {(() => {
-                const item = MEMORIES[activePhotoIndex];
+                const item = MEMORIES[activeMobileIdx];
                 return (
                   <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.94, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.92, y: -20 }}
-                    transition={{ duration: 0.4 }}
+                    exit={{ opacity: 0, scale: 0.94, y: -20 }}
+                    transition={{ duration: 0.35 }}
                     className="relative w-full max-w-xs"
                   >
-                    {/* Washi Tape */}
+                    {/* Washi Tape Ribbon */}
                     <div
-                      className="absolute -top-3 left-1/2 z-20 h-6 w-24 -translate-x-1/2 -rotate-1 rounded-sm bg-gradient-to-r from-rose-200/40 via-amber-100/60 to-rose-300/40 shadow-sm backdrop-blur-md"
+                      className={`absolute -top-3 left-1/2 z-20 h-6 w-24 -translate-x-1/2 -rotate-1 rounded-sm bg-gradient-to-r ${item.tapeColor} shadow-md backdrop-blur-md`}
                       aria-hidden="true"
                     />
 
                     {/* Polaroid Card */}
                     <div className="glass-cinematic relative overflow-hidden rounded-3xl p-4 pb-7 shadow-2xl">
                       <div
-                        onClick={() => setLightboxIndex(activePhotoIndex)}
-                        className="relative aspect-[9/14] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#1c0c15]"
+                        onClick={() => setLightboxIdx(activeMobileIdx)}
+                        className="relative aspect-[9/14] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#14060e]"
                       >
                         <Image
                           src={item.src}
@@ -263,8 +267,8 @@ export default function MemoriesGallery() {
                         <p className="mt-1 font-serif text-sm italic text-rose-100/80">
                           &ldquo;{item.caption}&rdquo;
                         </p>
-                        <p className="mt-2 text-[10px] uppercase tracking-widest text-rose-300/50">
-                          ✦ {item.date} ✦
+                        <p className="mt-2 text-[10px] uppercase tracking-widest text-rose-300/55">
+                          ✦ {item.subtitle} ✦
                         </p>
                       </div>
                     </div>
@@ -273,35 +277,35 @@ export default function MemoriesGallery() {
               })()}
             </AnimatePresence>
 
-            {/* Mobile Carousel Indicators */}
+            {/* Mobile Carousel Controls */}
             <div className="mt-6 flex items-center gap-4">
               <button
                 type="button"
                 onClick={() =>
-                  setActivePhotoIndex((prev) => (prev - 1 + MEMORIES.length) % MEMORIES.length)
+                  setActiveMobileIdx((prev) => (prev - 1 + MEMORIES.length) % MEMORIES.length)
                 }
-                aria-label="Previous"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-rose-300/20 bg-rose-500/10 text-rose-200"
+                aria-label="Previous photo"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-rose-300/25 bg-rose-500/10 text-rose-200 transition hover:bg-rose-500/25 active:scale-95"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
               <div className="flex gap-2">
                 {MEMORIES.map((_, i) => (
                   <span
                     key={i}
-                    className={`h-2 rounded-full transition-all ${
-                      activePhotoIndex === i ? "w-6 bg-rose-400" : "w-2 bg-rose-400/30"
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      activeMobileIdx === i ? "w-6 bg-rose-400" : "w-2 bg-rose-400/30"
                     }`}
                   />
                 ))}
               </div>
               <button
                 type="button"
-                onClick={() => setActivePhotoIndex((prev) => (prev + 1) % MEMORIES.length)}
-                aria-label="Next"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-rose-300/20 bg-rose-500/10 text-rose-200"
+                onClick={() => setActiveMobileIdx((prev) => (prev + 1) % MEMORIES.length)}
+                aria-label="Next photo"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-rose-300/25 bg-rose-500/10 text-rose-200 transition hover:bg-rose-500/25 active:scale-95"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </div>
@@ -315,20 +319,20 @@ export default function MemoriesGallery() {
         {selectedPhoto && (
           <motion.div
             role="dialog"
-            aria-label="Enlarged photo preview"
+            aria-label="Enlarged memory preview"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={() => setLightboxIndex(null)}
+            onClick={() => setLightboxIdx(null)}
             className="fixed inset-0 z-[75] flex flex-col items-center justify-center bg-black/92 p-4 backdrop-blur-xl"
           >
             {/* Close Button */}
             <button
               type="button"
-              onClick={() => setLightboxIndex(null)}
+              onClick={() => setLightboxIdx(null)}
               aria-label="Close"
-              className="absolute right-6 top-6 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition hover:bg-rose-500 hover:scale-110 active:scale-95"
+              className="absolute right-6 top-6 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition hover:bg-rose-600 hover:scale-110 active:scale-95"
             >
               <X className="h-5 w-5" />
             </button>
@@ -336,9 +340,12 @@ export default function MemoriesGallery() {
             {/* Prev Button */}
             <button
               type="button"
-              onClick={prevLightbox}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIdx((prev) => (prev !== null ? (prev - 1 + MEMORIES.length) % MEMORIES.length : 0));
+              }}
               aria-label="Previous image"
-              className="absolute left-4 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-rose-500 hover:scale-110 active:scale-95"
+              className="absolute left-4 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-rose-600 hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
@@ -346,14 +353,17 @@ export default function MemoriesGallery() {
             {/* Next Button */}
             <button
               type="button"
-              onClick={nextLightbox}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIdx((prev) => (prev !== null ? (prev + 1) % MEMORIES.length : 0));
+              }}
               aria-label="Next image"
-              className="absolute right-4 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-rose-500 hover:scale-110 active:scale-95"
+              className="absolute right-4 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition hover:bg-rose-600 hover:scale-110 active:scale-95"
             >
               <ChevronRight className="h-6 w-6" />
             </button>
 
-            {/* Lightbox Modal Card */}
+            {/* Lightbox Content Card */}
             <motion.div
               key={selectedPhoto.id}
               initial={{ scale: 0.9, opacity: 0 }}
@@ -361,9 +371,9 @@ export default function MemoriesGallery() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative flex max-h-[90vh] max-w-md flex-col items-center overflow-hidden rounded-3xl border border-rose-300/30 bg-[#160a10]/95 p-3 shadow-[0_0_80px_rgba(251,113,133,0.3)] sm:max-w-lg"
+              className="relative flex max-h-[90vh] max-w-md flex-col items-center overflow-hidden rounded-3xl border border-rose-300/30 bg-[#14060e]/95 p-3.5 shadow-[0_0_90px_rgba(251,113,133,0.35)] sm:max-w-lg"
             >
-              <div className="relative aspect-[9/14] h-[68vh] max-h-[700px] w-full overflow-hidden rounded-2xl bg-[#0e050a]">
+              <div className="relative aspect-[9/14] h-[68vh] max-h-[720px] w-full overflow-hidden rounded-2xl bg-[#0c0308]">
                 <Image
                   src={selectedPhoto.src}
                   alt={selectedPhoto.title}
@@ -377,11 +387,11 @@ export default function MemoriesGallery() {
                 <h4 className="font-script text-3xl text-rose-200 drop-shadow-[0_2px_12px_rgba(251,113,133,0.5)] sm:text-4xl">
                   {selectedPhoto.title}
                 </h4>
-                <p className="mt-1 font-serif text-sm italic text-rose-100/80 sm:text-base">
+                <p className="mt-1 font-serif text-sm italic text-rose-100/85 sm:text-base">
                   &ldquo;{selectedPhoto.caption}&rdquo;
                 </p>
-                <p className="mt-2 text-[10px] uppercase tracking-widest text-rose-300/50">
-                  Memory {(lightboxIndex ?? 0) + 1} of {MEMORIES.length}
+                <p className="mt-2 text-[10px] uppercase tracking-widest text-rose-300/60">
+                  Memory {(lightboxIdx ?? 0) + 1} of {MEMORIES.length}
                 </p>
               </div>
             </motion.div>

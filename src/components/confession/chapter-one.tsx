@@ -22,8 +22,8 @@ function Word({
   range: [number, number];
   children: string;
 }) {
-  const opacity = useTransform(progress, range, [0.1, 1]);
-  const blur = useTransform(progress, range, [8, 0]);
+  const opacity = useTransform(progress, range, [0.12, 1]);
+  const blur = useTransform(progress, range, [6, 0]);
   const filter = useMotionTemplate`blur(${blur}px)`;
   return (
     <motion.span style={{ opacity, filter }} className="mr-[0.28em] inline-block">
@@ -41,25 +41,27 @@ export default function ChapterOne() {
     <section
       id="chapter-1"
       ref={ref}
-      className="relative flex min-h-screen items-center justify-center px-6 py-28"
+      className="relative flex min-h-screen items-center justify-center px-6 py-32"
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-serif text-[24vw] font-semibold text-rose-500/[0.05]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-serif text-[26vw] font-bold text-rose-500/[0.035]"
       >
         01
       </span>
+
       <div className="relative mx-auto max-w-3xl text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 0.8 }}
-          className="text-[11px] uppercase tracking-[0.4em] text-rose-300/60"
+          className="text-[11px] uppercase tracking-[0.45em] text-rose-300/70"
         >
           chapter one · the beginning
         </motion.p>
-        <p className="mt-8 font-serif text-3xl font-light leading-snug text-rose-50 sm:text-4xl lg:text-[2.75rem]">
+
+        <p className="mt-8 font-serif text-3xl font-light leading-relaxed text-rose-50 sm:text-4xl lg:text-[2.85rem]">
           {words.map((word, i) => (
             <Word
               key={`${word}-${i}`}
@@ -70,7 +72,8 @@ export default function ChapterOne() {
             </Word>
           ))}
         </p>
-        <Ornament className="mt-12" />
+
+        <Ornament className="mt-14" />
       </div>
     </section>
   );

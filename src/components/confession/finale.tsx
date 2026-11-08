@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, Moon } from "lucide-react";
 
 type Particle = {
   x: number;
@@ -452,6 +452,15 @@ export default function Finale() {
               >
                 You just made me the happiest person alive.
               </motion.p>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.68 }}
+                className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-amber-300/30 bg-amber-500/10 px-4 py-1 font-serif text-sm italic text-amber-200"
+              >
+                <Moon className="h-3.5 w-3.5 text-amber-300 animate-pulse" />
+                <span>She is a selenophile, and he is the moon 🌕</span>
+              </motion.span>
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

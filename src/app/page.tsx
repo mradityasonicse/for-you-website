@@ -6,6 +6,7 @@ import ChapterTwo from "@/components/confession/chapter-two";
 import CursorSparkle from "@/components/confession/cursor-sparkle";
 import Finale from "@/components/confession/finale";
 import IntroScene from "@/components/confession/intro-scene";
+import LoveReasons from "@/components/confession/love-reasons";
 import MemoriesGallery from "@/components/confession/memories-gallery";
 import PageFooter from "@/components/confession/page-footer";
 import ScrollProgress from "@/components/confession/scroll-progress";
@@ -23,6 +24,7 @@ export default function Page() {
         <ChapterOne />
         <ChapterTwo />
         <MemoriesGallery />
+        <LoveReasons />
         <ChapterThree />
         <ChapterFour />
         <Finale />

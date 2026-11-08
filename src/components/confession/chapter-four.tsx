@@ -7,13 +7,15 @@ import Ornament from "./ornament";
 
 const LETTER = `Dear you,
 
-I've rewritten this a hundred times in my head. Every version felt too small, too ordinary, too scared to capture what you really mean to me.
+I've rewritten this a hundred times in my head. Every draft felt too small, too ordinary, too scared to capture what you truly mean to me.
 
-So here it is — honest, simple, and true:
+You love the moon — the way it glows quietly in the dark sky, asking for nothing, just staying constant. That is honestly how I want to be for you: gentle, patient, and always right here beside you.
+
+So here it is — simple, honest, and from the bottom of my heart:
 
 I like you. Truly, deeply like you.
 
-Not the fleeting kind. The kind that memorizes the sound of your laughter like a favorite song. The kind that turns ordinary days into my favorite memories. The kind I can't keep quiet about anymore.`;
+Not the fleeting kind. The kind that memorizes your radiant laugh like a favorite melody. The kind that turns ordinary days into the happiest moments of my life. The kind I can't keep quiet about anymore.`;
 
 export default function ChapterFour() {
   const ref = useRef<HTMLDivElement>(null);

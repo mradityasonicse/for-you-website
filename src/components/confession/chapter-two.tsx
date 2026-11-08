@@ -7,10 +7,12 @@ import Ornament from "./ornament";
 const THINGS = [
   { text: "your laugh", x: 8, y: 10, d: 0 },
   { text: "your eyes", x: 72, y: 6, d: 1.1 },
+  { text: "that radiant smile", x: 22, y: 22, d: 1.4 },
   { text: "the way you say my name", x: 2, y: 40, d: 2.2 },
   { text: "your midnight thoughts", x: 68, y: 36, d: 0.6 },
   { text: "your terrible, wonderful puns", x: 10, y: 70, d: 1.7 },
   { text: "your kindness", x: 70, y: 68, d: 2.8 },
+  { text: "the sparkle in your eyes", x: 54, y: 76, d: 3.1 },
   { text: "the nose scrunch", x: 36, y: 84, d: 0.9 },
   { text: "your courage", x: 38, y: 0, d: 2.4 },
 ];

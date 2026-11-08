@@ -54,10 +54,10 @@ export default function ChapterFour() {
         whileInView={{ opacity: 1, y: 0, rotate: -1 }}
         viewport={{ once: true, margin: "-15%" }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="glass-strong relative mt-14 w-full max-w-2xl rounded-3xl p-8 sm:p-12"
+        className="glass-cinematic relative mt-14 w-full max-w-2xl rounded-3xl p-8 sm:p-12 shadow-[0_25px_70px_rgba(0,0,0,0.7),0_0_50px_rgba(251,113,133,0.15)]"
       >
-        <div className="ring-glow absolute -top-6 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-rose-700">
-          <Heart className="h-5 w-5 fill-rose-100 text-rose-100" aria-hidden="true" />
+        <div className="ring-glow absolute -top-6 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 via-rose-600 to-amber-500 shadow-[0_0_25px_rgba(251,113,133,0.8)]">
+          <Heart className="h-5 w-5 fill-rose-100 text-rose-100 animate-pulse" aria-hidden="true" />
         </div>
         <p className="min-h-[16rem] whitespace-pre-wrap text-left font-serif text-lg leading-relaxed text-rose-50/85 sm:text-xl">
           {LETTER.slice(0, count)}

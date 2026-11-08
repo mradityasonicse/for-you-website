@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${cormorant.variable} ${greatVibes.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${cormorant.variable} ${greatVibes.variable} antialiased bg-background text-foreground film-grain selection:bg-rose-500/30 selection:text-rose-100`}
       >
         {children}
         <Toaster />

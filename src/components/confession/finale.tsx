@@ -408,16 +408,32 @@ export default function Finale() {
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.25, type: "spring", stiffness: 140, damping: 15 }}
-                className="relative mt-4 h-24 w-24 overflow-hidden rounded-full border-2 border-rose-300/80 p-1 shadow-[0_0_35px_rgba(251,113,133,0.7)]"
+                className="relative mt-4 flex items-center justify-center -space-x-3 sm:-space-x-4"
               >
-                <div className="relative h-full w-full overflow-hidden rounded-full">
-                  <Image
-                    src="/memories/memory-1.jpg"
-                    alt="Memory"
-                    fill
-                    sizes="96px"
-                    className="object-cover object-center"
-                  />
+                <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-rose-300/90 p-0.5 shadow-[0_0_30px_rgba(251,113,133,0.7)] sm:h-24 sm:w-24">
+                  <div className="relative h-full w-full overflow-hidden rounded-full">
+                    <Image
+                      src="/memories/memory-2.jpg"
+                      alt="That Radiant Smile"
+                      fill
+                      sizes="96px"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                </div>
+                <div className="z-10 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-amber-400 shadow-[0_0_15px_rgba(251,113,133,0.8)]">
+                  <Heart className="h-4 w-4 fill-white text-white animate-pulse" />
+                </div>
+                <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-amber-300/90 p-0.5 shadow-[0_0_30px_rgba(252,211,77,0.6)] sm:h-24 sm:w-24">
+                  <div className="relative h-full w-full overflow-hidden rounded-full">
+                    <Image
+                      src="/memories/memory-1.jpg"
+                      alt="Effortlessly You"
+                      fill
+                      sizes="96px"
+                      className="object-cover object-center"
+                    />
+                  </div>
                 </div>
               </motion.div>
               <motion.h3

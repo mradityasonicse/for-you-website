@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Heart } from "lucide-react";
 
@@ -403,6 +404,22 @@ export default function Finale() {
               >
                 and the universe said—
               </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.25, type: "spring", stiffness: 140, damping: 15 }}
+                className="relative mt-4 h-24 w-24 overflow-hidden rounded-full border-2 border-rose-300/80 p-1 shadow-[0_0_35px_rgba(251,113,133,0.7)]"
+              >
+                <div className="relative h-full w-full overflow-hidden rounded-full">
+                  <Image
+                    src="/memories/memory-1.jpg"
+                    alt="Memory"
+                    fill
+                    sizes="96px"
+                    className="object-cover object-center"
+                  />
+                </div>
+              </motion.div>
               <motion.h3
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}

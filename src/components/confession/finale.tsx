@@ -461,15 +461,22 @@ export default function Finale() {
                 <Moon className="h-3.5 w-3.5 text-amber-300 animate-pulse" />
                 <span>She is a selenophile, and he is the moon 🌕</span>
               </motion.span>
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                className="mt-4 max-w-md text-sm text-rose-100/60 sm:text-base"
+              <motion.div
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.85 }}
+                className="glass-cinematic mt-5 max-w-sm rounded-2xl border border-amber-300/30 p-4 text-center shadow-[0_0_35px_rgba(252,211,77,0.2)]"
               >
-                From this moment on, it&apos;s officially us. I promise to keep making you smile —
-                starting right now.
-              </motion.p>
+                <p className="text-[10px] uppercase tracking-[0.35em] text-amber-300/80">
+                  ✦ Certificate of Us ✦
+                </p>
+                <p className="mt-1 font-serif text-base italic text-rose-100/90">
+                  &ldquo;इश्क़ में चूर-चूर... officially forever.&rdquo;
+                </p>
+                <p className="mt-2 text-[10px] tracking-widest text-rose-200/50 uppercase">
+                  Signed under the Moon & Stars
+                </p>
+              </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

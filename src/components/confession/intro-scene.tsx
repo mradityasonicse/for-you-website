@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ChevronDown, Heart, Sparkles, Volume2 } from "lucide-react";
+import { ChevronDown, Moon, Sparkles } from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -16,15 +17,15 @@ export default function IntroScene() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-20 pt-16 text-center"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-20 pt-24 text-center"
     >
-      {/* Background radial spotlight */}
+      {/* Volumetric Radial Spotlight */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-rose-500/15 via-amber-500/10 to-transparent blur-[140px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[680px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-b from-rose-500/15 via-amber-500/10 to-transparent blur-[160px]"
         aria-hidden="true"
       />
 
-      {/* Floating Glowing Heart Symbol */}
+      {/* Intertwined Celestial Monogram Logo Emblem */}
       <motion.div
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -32,37 +33,36 @@ export default function IntroScene() {
         className="relative mb-8"
       >
         <span
-          className="absolute inset-0 -m-6 animate-glow-pulse rounded-full border border-rose-400/25"
+          className="absolute inset-0 -m-8 animate-glow-pulse rounded-full border border-amber-400/20"
           aria-hidden="true"
         />
         <span
-          className="absolute inset-0 -m-12 animate-glow-pulse rounded-full border border-amber-300/15"
+          className="absolute inset-0 -m-16 animate-glow-pulse rounded-full border border-rose-400/15"
           style={{ animationDelay: "1.4s" }}
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 -m-10 rounded-full bg-rose-500/20 blur-3xl"
+          className="absolute inset-0 -m-12 rounded-full bg-rose-500/20 blur-3xl"
           aria-hidden="true"
         />
-        <Heart
-          className="relative h-20 w-20 animate-heartbeat fill-rose-500 text-rose-300 drop-shadow-[0_0_40px_rgba(251,113,133,0.9)] sm:h-24 sm:w-24"
-          aria-hidden="true"
-        />
+        <div className="relative h-24 w-24 drop-shadow-[0_0_45px_rgba(251,113,133,0.9)] sm:h-28 sm:w-28">
+          <Image src="/logo.svg" alt="The Moon & Heart Monogram" fill className="object-contain" priority />
+        </div>
       </motion.div>
 
-      {/* Editorial Chapter Tag */}
+      {/* Editorial Chapter Badge */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="show"
         custom={0.3}
-        className="inline-flex items-center gap-2 rounded-full border border-rose-300/20 bg-rose-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.45em] text-rose-200/80 backdrop-blur-md"
+        className="inline-flex items-center gap-2 rounded-full border border-rose-300/20 bg-rose-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.45em] text-rose-200/90 backdrop-blur-md"
       >
-        <Sparkles className="h-3 w-3 text-amber-300 animate-twinkle" />
-        <span>A Universe Made For You</span>
+        <Moon className="h-3 w-3 text-amber-300 animate-pulse" />
+        <span>She is a Selenophile · He is the Moon</span>
       </motion.div>
 
-      {/* Main Title */}
+      {/* Main Dramatic Headline */}
       <motion.h1
         variants={fadeUp}
         initial="hidden"
@@ -81,11 +81,11 @@ export default function IntroScene() {
         custom={1.1}
         className="mt-6 max-w-xl text-base leading-relaxed text-rose-100/70 sm:text-lg"
       >
-        Take a gentle breath. Scroll slowly. Every constellation, every word, and every heartbeat
-        here was crafted just for you.
+        Take a gentle breath. Scroll slowly. Every constellation, every memory, and every beat
+        of this universe was built for you.
       </motion.p>
 
-      {/* Interaction Call to Action */}
+      {/* Interactive Call to Action */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -103,13 +103,12 @@ export default function IntroScene() {
           />
           <span>Begin our story</span>
         </a>
-        <div className="flex items-center gap-1.5 text-xs text-rose-200/50">
-          <Volume2 className="h-3.5 w-3.5 text-amber-300/70 animate-pulse" />
-          <span>tap the speaker (top-right) for the ambient soundtrack</span>
-        </div>
+        <p className="text-xs text-rose-200/50">
+          ✦ tap the soundtrack button top-right for the ambient music ✦
+        </p>
       </motion.div>
 
-      {/* Scroll Down Indicator */}
+      {/* Scroll Down Cue */}
       <motion.a
         href="#chapter-1"
         aria-label="Scroll to begin"

@@ -254,7 +254,7 @@ export default function Finale() {
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-25%" }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9 }}
         className="font-script text-3xl text-rose-200/80 sm:text-4xl"
       >
@@ -263,7 +263,7 @@ export default function Finale() {
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-25%" }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9, delay: 0.2 }}
         className="mt-4 text-[11px] uppercase tracking-[0.4em] text-rose-300/50"
       >
@@ -272,7 +272,7 @@ export default function Finale() {
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-25%" }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 1, delay: 0.35 }}
         className="mt-6 max-w-4xl font-serif text-5xl font-light leading-tight text-rose-50 sm:text-7xl lg:text-8xl"
       >
@@ -281,7 +281,7 @@ export default function Finale() {
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-25%" }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 1, delay: 0.55 }}
         className="mt-6 max-w-md text-sm text-rose-100/50 sm:text-base"
       >
@@ -291,7 +291,7 @@ export default function Finale() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-25%" }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9, delay: 0.7 }}
         className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-8"
       >

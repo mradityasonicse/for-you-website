@@ -12,7 +12,8 @@ const SECTIONS = [
   { id: "chapter-2", label: "02 · Little Things" },
   { id: "memories", label: "03 · Chronicle" },
   { id: "reasons", label: "04 · Notes" },
-  { id: "envelope", label: "05 · Letter" },
+  { id: "symptoms", label: "05 · Telemetry" },
+  { id: "envelope", label: "06 · Letter" },
   { id: "finale", label: "Finale" },
 ];
 

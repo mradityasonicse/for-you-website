@@ -17,11 +17,14 @@ const THINGS = [
 
 export default function ChapterTwo() {
   return (
-    <section className="relative flex min-h-[110vh] flex-col items-center justify-center px-6 py-32 text-center">
+    <section
+      id="chapter-2"
+      className="relative flex min-h-[110vh] flex-col items-center justify-center px-6 py-32 text-center"
+    >
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-20%" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8 }}
         className="text-[11px] uppercase tracking-[0.45em] text-rose-300/70"
       >
@@ -31,7 +34,7 @@ export default function ChapterTwo() {
       <motion.h2
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-20%" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.9, delay: 0.15 }}
         className="mt-6 max-w-2xl font-serif text-4xl font-light text-rose-50 sm:text-5xl lg:text-6xl"
       >
@@ -99,7 +102,7 @@ export default function ChapterTwo() {
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-20%" }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 1.2, delay: 0.4 }}
         className="mt-14 max-w-md font-serif text-lg italic text-rose-100/55"
       >

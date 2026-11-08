@@ -54,7 +54,7 @@ export default function ChapterOne() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20%" }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8 }}
           className="text-[11px] uppercase tracking-[0.45em] text-rose-300/70"
         >

@@ -5,8 +5,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // Pentatonic & Romantic celestial harmonics: A4, C#5, E5, F#5, G#5, B5, C#6
 const CHIME_FREQS = [440, 554.37, 659.25, 739.99, 830.61, 987.77, 1108.73];
 
-// Emotional Chord root frequencies (A -> F# -> D -> E)
-const CHORD_ROOTS = [110, 92.5, 73.42, 82.41];
+// Emotional Chord Progressions (Amaj9 -> F#m11 -> Dmaj9 -> E6sus4)
+const CHORD_VOICES = [
+  [110.0, 164.81, 220.0, 277.18], // Amaj9
+  [92.5, 138.59, 185.0, 220.0],   // F#m11
+  [73.42, 110.0, 146.83, 185.0],  // Dmaj9
+  [82.41, 110.0, 123.47, 164.81], // E6sus4
+];
 
 export function useAmbientAudio() {
   const [enabled, setEnabled] = useState(false);
@@ -15,8 +20,9 @@ export function useAmbientAudio() {
   const chimeTimerRef = useRef<number | null>(null);
   const chordTimerRef = useRef<number | null>(null);
   const oscsRef = useRef<OscillatorNode[]>([]);
+  const voiceOscsRef = useRef<OscillatorNode[]>([]);
   const padGainRef = useRef<GainNode | null>(null);
-  const currentRootIndex = useRef(0);
+  const currentChordIdx = useRef(0);
 
   const playChime = useCallback(() => {
     const ctx = ctxRef.current;
@@ -52,6 +58,28 @@ export function useAmbientAudio() {
     chimeTimerRef.current = window.setTimeout(tick, 600);
   }, [playChime]);
 
+  const scheduleChords = useCallback(() => {
+    if (chordTimerRef.current) window.clearTimeout(chordTimerRef.current);
+    const cycle = () => {
+      chordTimerRef.current = window.setTimeout(() => {
+        const ctx = ctxRef.current;
+        if (!ctx) return;
+        currentChordIdx.current = (currentChordIdx.current + 1) % CHORD_VOICES.length;
+        const targetFreqs = CHORD_VOICES[currentChordIdx.current];
+        const now = ctx.currentTime;
+        voiceOscsRef.current.forEach((osc, idx) => {
+          if (targetFreqs[idx]) {
+            osc.frequency.cancelScheduledValues(now);
+            osc.frequency.setValueAtTime(osc.frequency.value, now);
+            osc.frequency.exponentialRampToValueAtTime(targetFreqs[idx], now + 3.5);
+          }
+        });
+        cycle();
+      }, 8500);
+    };
+    cycle();
+  }, []);
+
   const buildGraph = useCallback(() => {
     const ctx = ctxRef.current;
     if (!ctx) return;
@@ -73,25 +101,23 @@ export function useAmbientAudio() {
     lowpass.connect(master);
 
     // Warm lush polyphonic pad voices
-    const root = CHORD_ROOTS[0];
-    const voices: Array<[OscillatorType, number, number]> = [
-      ["sine", root, 1.0],
-      ["sine", root * 1.5, 0.75], // fifth
-      ["triangle", root * 2.0, 0.45], // octave
-      ["sine", root * 2.5, 0.3], // third
-    ];
+    const initChord = CHORD_VOICES[0];
+    const types: OscillatorType[] = ["sine", "sine", "triangle", "sine"];
+    const vols = [1.0, 0.75, 0.45, 0.3];
 
-    for (const [type, freq, vol] of voices) {
+    voiceOscsRef.current = [];
+    initChord.forEach((freq, i) => {
       const osc = ctx.createOscillator();
-      osc.type = type;
+      osc.type = types[i];
       osc.frequency.value = freq;
       const g = ctx.createGain();
-      g.gain.value = 0.85 * vol;
+      g.gain.value = 0.85 * vols[i];
       osc.connect(g);
       g.connect(padGain);
       osc.start();
       oscsRef.current.push(osc);
-    }
+      voiceOscsRef.current.push(osc);
+    });
 
     // Slow breathing LFO on master pad gain
     const lfo = ctx.createOscillator();
@@ -122,8 +148,9 @@ export function useAmbientAudio() {
       master.gain.linearRampToValueAtTime(1, now + 1.2);
     }
     scheduleChimes();
+    scheduleChords();
     setEnabled(true);
-  }, [buildGraph, scheduleChimes]);
+  }, [buildGraph, scheduleChimes, scheduleChords]);
 
   const disable = useCallback(() => {
     const ctx = ctxRef.current;

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Moon, Sparkles, Sun, X, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Moon, Sparkles, Sun, X, ZoomIn } from "lucide-react";
 import Ornament from "./ornament";
 
 export interface MemoryItem {
@@ -44,6 +44,14 @@ export const MEMORIES: MemoryItem[] = [
 
 export default function MemoriesGallery() {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [loves, setLoves] = useState<Record<string, number>>({
+    "memory-sun": 48,
+    "memory-moon": 52,
+  });
+
+  const addLove = (id: string) => {
+    setLoves((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  };
 
   const selectedPhoto = lightboxIdx !== null ? MEMORIES[lightboxIdx] : null;
 
@@ -81,7 +89,7 @@ export default function MemoriesGallery() {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20%" }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.8 }}
           className="inline-flex items-center gap-2 rounded-full border border-rose-300/20 bg-rose-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.45em] text-rose-200/80 backdrop-blur-md"
         >
@@ -92,7 +100,7 @@ export default function MemoriesGallery() {
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20%" }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.9, delay: 0.15 }}
           className="mt-6 max-w-3xl font-serif text-4xl font-light leading-tight text-rose-50 sm:text-5xl lg:text-6xl"
         >
@@ -103,7 +111,7 @@ export default function MemoriesGallery() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20%" }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.9, delay: 0.3 }}
           className="mt-4 max-w-2xl text-base leading-relaxed text-rose-100/65"
         >
@@ -118,7 +126,7 @@ export default function MemoriesGallery() {
           <motion.div
             initial={{ opacity: 0, y: 45, scale: 0.94 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-15%" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex flex-col items-center lg:col-span-5"
           >
@@ -157,6 +165,19 @@ export default function MemoriesGallery() {
                   <span>{MEMORIES[0].badge}</span>
                 </span>
 
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addLove(MEMORIES[0].id);
+                  }}
+                  aria-label="Love this photo"
+                  className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-200 backdrop-blur-md transition hover:scale-108 hover:bg-rose-950/80 active:scale-90"
+                >
+                  <Heart className="h-3.5 w-3.5 fill-rose-500 text-rose-400" />
+                  <span>{loves[MEMORIES[0].id]}</span>
+                </button>
+
                 <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-100 backdrop-blur-md transition-all group-hover:scale-105 group-hover:bg-rose-950/80">
                   <ZoomIn className="h-3 w-3 text-rose-300" />
                   <span>Enlarge</span>
@@ -181,7 +202,7 @@ export default function MemoriesGallery() {
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.94 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-15%" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex flex-col items-center lg:col-span-7"
           >
@@ -219,6 +240,19 @@ export default function MemoriesGallery() {
                   <Moon className="h-3 w-3 text-amber-300" />
                   <span>{MEMORIES[1].badge}</span>
                 </span>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addLove(MEMORIES[1].id);
+                  }}
+                  aria-label="Love this photo"
+                  className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-200 backdrop-blur-md transition hover:scale-108 hover:bg-rose-950/80 active:scale-90"
+                >
+                  <Heart className="h-3.5 w-3.5 fill-rose-500 text-rose-400" />
+                  <span>{loves[MEMORIES[1].id]}</span>
+                </button>
 
                 <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium text-rose-100 backdrop-blur-md transition-all group-hover:scale-105 group-hover:bg-rose-950/80">
                   <ZoomIn className="h-3 w-3 text-rose-300" />
